@@ -10,7 +10,10 @@ import { EntryService } from '../../services/entry.service';
     <section class="today">
       <header>
         <h1>Today</h1>
-        <p class="total">{{ entryService.todayTotal() | number }} kcal</p>
+        <div class="header-right">
+          <a routerLink="/templates" class="nav-link">Templates</a>
+          <p class="total">{{ entryService.todayTotal() | number }} kcal</p>
+        </div>
       </header>
 
       @if (entryService.todayEntries().length === 0) {
@@ -131,6 +134,18 @@ import { EntryService } from '../../services/entry.service';
       text-decoration: none;
       font-size: 2rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-link {
+      font-size: 0.9rem;
+      color: #0a7;
+      text-decoration: none;
     }
   `],
 })
