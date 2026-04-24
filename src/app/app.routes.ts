@@ -18,4 +18,8 @@ export const routes: Routes = [
     path: 'templates/:id/edit',
     loadComponent: () => import('./pages/templates/template-edit.page').then(m => m.TemplateEditPage),
   },
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings.page').then(m => m.SettingsPage),
+  },
 ];
