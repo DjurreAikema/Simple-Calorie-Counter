@@ -83,7 +83,12 @@ import {ProgressRingComponent} from '../../components/progress-ring.component';
               </div>
               <div class="entry-actions">
                 <span class="entry-cal">{{ entry.calories }} kcal</span>
-                <button type="button" (click)="remove(entry.id!)" aria-label="Delete">✕</button>
+                <a [routerLink]="['/entries', entry.id, 'edit']" aria-label="Edit" class="icon-btn edit">
+                  ✎
+                </a>
+                <button type="button" (click)="remove(entry.id!)" aria-label="Delete" class="icon-btn delete">
+                  ✕
+                </button>
               </div>
             </li>
           }
@@ -281,16 +286,22 @@ import {ProgressRingComponent} from '../../components/progress-ring.component';
       font-variant-numeric: tabular-nums;
     }
 
-    .entry-actions button {
+    .entry-actions .icon-btn {
       background: none;
       border: none;
       font-size: 1rem;
       cursor: pointer;
       color: #999;
       padding: 0.25rem 0.5rem;
+      text-decoration: none;
+      line-height: 1;
     }
 
-    .entry-actions button:hover {
+    .entry-actions .icon-btn.edit:hover {
+      color: #0a7;
+    }
+
+    .entry-actions .icon-btn.delete:hover {
       color: #c00;
     }
 

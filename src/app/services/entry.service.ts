@@ -46,9 +46,17 @@ export class EntryService {
     ),
   );
 
+  async get(id: number): Promise<Entry | undefined> {
+    return db.entries.get(id);
+  }
+
   async add(input: NewEntryInput): Promise<number> {
     const now = new Date();
     return db.entries.add({...input, createdAt: now, updatedAt: now});
+  }
+
+  async update(id: number, input: NewEntryInput): Promise<void> {
+    await db.entries.update(id, {...input, updatedAt: new Date()});
   }
 
   async remove(id: number): Promise<void> {
