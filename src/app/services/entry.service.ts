@@ -3,7 +3,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {liveQuery} from 'dexie';
 import {from} from 'rxjs';
 import {db, Entry} from '../db';
-import {endOfDay, startOfDay} from '../util/date.util';
+import {endOfDay, endOfWeek, startOfDay, startOfWeek} from '../util/date.util';
 
 export type NewEntryInput = Omit<Entry, 'id' | 'createdAt' | 'updatedAt'>;
 
@@ -36,6 +36,45 @@ export class EntryService {
 
   readonly todayMacros = computed<MacroTotals>(() =>
     this.todayEntries().reduce<MacroTotals>(
+      (acc, e) => ({
+        protein: acc.protein + (e.protein ?? 0),
+        carbs: acc.carbs + (e.carbs ?? 0),
+        fat: acc.fat + (e.fat ?? 0),
+        fiber: acc.fiber + (e.fiber ?? 0),
+      }),
+      {protein: 0, carbs: 0, fat: 0, fiber: 0},
+    ),
+  );
+
+  // TODO: same staleness caveat as todayEntries — week boundary won't roll over
+  // for a session that's open across Sunday→Monday.
+  private readonly weekEntries$ = from(
+    liveQuery(() =>
+      db.entries
+        .where('timestamp')
+        .between(startOfWeek(), endOfWeek())
+        .toArray(),
+    ),
+  );
+
+  readonly weekEntries = toSignal(this.weekEntries$, {initialValue: [] as Entry[]});
+
+  readonly weekDailyTotals = computed(() => {
+    const totals: number[] = [0, 0, 0, 0, 0, 0, 0];
+    for (const e of this.weekEntries()) {
+      const day = e.timestamp.getDay(); // 0=Sun ... 6=Sat
+      const idx = day === 0 ? 6 : day - 1;
+      totals[idx] += e.calories;
+    }
+    return totals;
+  });
+
+  readonly weekTotal = computed(() =>
+    this.weekEntries().reduce((sum, e) => sum + e.calories, 0),
+  );
+
+  readonly weekMacros = computed<MacroTotals>(() =>
+    this.weekEntries().reduce<MacroTotals>(
       (acc, e) => ({
         protein: acc.protein + (e.protein ?? 0),
         carbs: acc.carbs + (e.carbs ?? 0),

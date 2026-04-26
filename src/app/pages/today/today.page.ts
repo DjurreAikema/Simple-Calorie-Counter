@@ -307,7 +307,7 @@ import {ProgressRingComponent} from '../../components/progress-ring.component';
 
     .fab {
       position: fixed;
-      bottom: 1.5rem;
+      bottom: calc(56px + 1rem);
       right: 1.5rem;
       width: 56px;
       height: 56px;

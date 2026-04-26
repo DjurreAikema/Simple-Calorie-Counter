@@ -21,3 +21,18 @@ export function fromDatetimeLocal(s: string): Date {
   const [h, min] = timePart.split(':').map(Number);
   return new Date(y, m - 1, d, h, min);
 }
+
+export function startOfWeek(d: Date = new Date()): Date {
+  const result = startOfDay(d);
+  const day = result.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  result.setDate(result.getDate() + diff);
+  return result;
+}
+
+export function endOfWeek(d: Date = new Date()): Date {
+  const start = startOfWeek(d);
+  const sunday = new Date(start);
+  sunday.setDate(sunday.getDate() + 6);
+  return endOfDay(sunday);
+}

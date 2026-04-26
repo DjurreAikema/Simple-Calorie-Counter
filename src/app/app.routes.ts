@@ -1,10 +1,21 @@
 import {Routes} from '@angular/router';
 
 export const routes: Routes = [
-  {path: '', pathMatch: 'full', redirectTo: 'today'},
   {
-    path: 'today',
-    loadComponent: () => import('./pages/today/today.page').then(m => m.TodayPage),
+    path: '',
+    loadComponent: () =>
+      import('./layouts/main-layout.component').then(m => m.MainLayoutComponent),
+    children: [
+      {path: '', pathMatch: 'full', redirectTo: 'today'},
+      {
+        path: 'today',
+        loadComponent: () => import('./pages/today/today.page').then(m => m.TodayPage),
+      },
+      {
+        path: 'week',
+        loadComponent: () => import('./pages/week/week.page').then(m => m.WeekPage),
+      },
+    ],
   },
   {
     path: 'add',
