@@ -2,6 +2,7 @@ import {Component, effect, inject, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {GoalService} from '../../services/goal.service';
+import {NotificationService} from '../../services/notification.service';
 
 @Component({
   selector: 'app-settings',
@@ -44,6 +45,30 @@ import {GoalService} from '../../services/goal.service';
           </button>
         </div>
       </form>
+
+      @if (notificationService.available()) {
+        <div class="notification-section">
+          <h2>Notifications</h2>
+          <p class="fine-print">
+            Your browser doesn't support icon badges. Enable a persistent
+            notification to see today's calories at a glance.
+          </p>
+          @if (notificationService.enabled()) {
+            <button type="button" class="btn-secondary" (click)="disableNotifications()">
+              Disable notification
+            </button>
+          } @else {
+            <button type="button" class="btn-primary" (click)="enableNotifications()">
+              Enable notification
+            </button>
+            @if (notifDenied()) {
+              <p class="error">
+                Notification permission was denied. You can change this in your browser settings.
+              </p>
+            }
+          }
+        </div>
+      }
     </section>
   `,
   styles: [`
@@ -149,12 +174,29 @@ import {GoalService} from '../../services/goal.service';
       background: #eee;
       color: #333;
     }
+
+    .notification-section {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .notification-section h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
   `],
 })
 export class SettingsPage {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly goalService = inject(GoalService);
+
+  protected readonly notificationService = inject(NotificationService);
+  protected readonly notifDenied = signal(false);
 
   protected readonly currentGoal = this.goalService.currentGoal;
   protected readonly saving = signal(false);
@@ -192,5 +234,14 @@ export class SettingsPage {
     } finally {
       this.saving.set(false);
     }
+  }
+
+  async enableNotifications(): Promise<void> {
+    const ok = await this.notificationService.enable();
+    this.notifDenied.set(!ok);
+  }
+
+  async disableNotifications(): Promise<void> {
+    await this.notificationService.disable();
   }
 }

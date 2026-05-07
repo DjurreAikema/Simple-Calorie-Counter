@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideCharts({
       registerables: [BarController, BarElement, CategoryScale, LinearScale, Tooltip],
     }),
-    provideServiceWorker('ngsw-worker.js', {
+    provideServiceWorker('sw-custom.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
