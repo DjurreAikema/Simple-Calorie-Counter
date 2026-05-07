@@ -15,6 +15,14 @@ export const routes: Routes = [
         path: 'week',
         loadComponent: () => import('./pages/week/week.page').then(m => m.WeekPage),
       },
+      {
+        path: 'history',
+        loadComponent: () => import('./pages/history/history.page').then(m => m.HistoryPage),
+      },
+      {
+        path: 'history/:date',
+        loadComponent: () => import('./pages/history/history-detail.page').then(m => m.HistoryDetailPage),
+      },
     ],
   },
   {

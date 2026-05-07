@@ -36,3 +36,14 @@ export function endOfWeek(d: Date = new Date()): Date {
   sunday.setDate(sunday.getDate() + 6);
   return endOfDay(sunday);
 }
+
+export function formatDateKey(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+export function parseDateKey(key: string): Date | null {
+  const parts = key.split('-').map(Number);
+  if (parts.length !== 3 || parts.some((n) => !Number.isFinite(n))) return null;
+  return new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
+}

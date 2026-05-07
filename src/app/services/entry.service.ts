@@ -3,7 +3,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {liveQuery} from 'dexie';
 import {from} from 'rxjs';
 import {db, Entry} from '../db';
-import {endOfDay, endOfWeek, startOfDay, startOfWeek} from '../util/date.util';
+import {endOfDay, endOfWeek, formatDateKey, startOfDay, startOfWeek} from '../util/date.util';
 
 export type NewEntryInput = Omit<Entry, 'id' | 'createdAt' | 'updatedAt'>;
 
@@ -14,8 +14,17 @@ export interface MacroTotals {
   fiber: number;
 }
 
+export interface DaySummary {
+  dateKey: string;   // 'YYYY-MM-DD'
+  date: Date;        // local midnight
+  total: number;     // total kcal
+  entryCount: number;
+}
+
 @Injectable({providedIn: 'root'})
 export class EntryService {
+  // Today
+
   // TODO: if the app stays open past midnight, this range is stale.
   // Revisit once we add a "current day" signal driven by a timer.
   private readonly todayEntries$ = from(
@@ -45,6 +54,8 @@ export class EntryService {
       {protein: 0, carbs: 0, fat: 0, fiber: 0},
     ),
   );
+
+  // Week
 
   // TODO: same staleness caveat as todayEntries — week boundary won't roll over
   // for a session that's open across Sunday→Monday.
@@ -84,6 +95,50 @@ export class EntryService {
       {protein: 0, carbs: 0, fat: 0, fiber: 0},
     ),
   );
+
+  // History
+
+  private readonly allEntries$ = from(
+    liveQuery(() => db.entries.orderBy('timestamp').toArray()),
+  );
+
+  private readonly allEntries = toSignal(this.allEntries$, {initialValue: [] as Entry[]});
+
+  readonly historyDays = computed<DaySummary[]>(() => {
+    const todayKey = formatDateKey(new Date());
+    const map = new Map<string, DaySummary>();
+
+    for (const e of this.allEntries()) {
+      const key = formatDateKey(e.timestamp);
+      if (key === todayKey) continue;
+      const existing = map.get(key);
+      if (existing) {
+        existing.total += e.calories;
+        existing.entryCount++;
+      } else {
+        map.set(key, {
+          dateKey: key,
+          date: startOfDay(e.timestamp),
+          total: e.calories,
+          entryCount: 1,
+        });
+      }
+    }
+
+    return [...map.values()].sort(
+      (a, b) => b.date.getTime() - a.date.getTime(),
+    );
+  });
+
+  async getEntriesByDate(date: Date): Promise<Entry[]> {
+    const entries = await db.entries
+      .where('timestamp')
+      .between(startOfDay(date), endOfDay(date))
+      .toArray();
+    return entries.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+  }
+
+  // CRUD
 
   async get(id: number): Promise<Entry | undefined> {
     return db.entries.get(id);

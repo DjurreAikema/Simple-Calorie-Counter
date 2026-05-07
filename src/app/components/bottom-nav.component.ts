@@ -14,6 +14,10 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
         <span class="icon" aria-hidden="true">▦</span>
         <span class="label">Week</span>
       </a>
+      <a routerLink="/history" routerLinkActive="active" class="tab">
+        <span class="icon" aria-hidden="true">☰</span>
+        <span class="label">History</span>
+      </a>
     </nav>
   `,
   styles: [`
