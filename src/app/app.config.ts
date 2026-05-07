@@ -1,5 +1,11 @@
-import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection} from '@angular/core';
+import {
+  ApplicationConfig,
+  isDevMode,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import {provideRouter} from '@angular/router';
+import {provideServiceWorker} from '@angular/service-worker';
 import {provideCharts} from 'ng2-charts';
 import {BarController, BarElement, CategoryScale, LinearScale, Tooltip} from 'chart.js';
 
@@ -12,6 +18,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideCharts({
       registerables: [BarController, BarElement, CategoryScale, LinearScale, Tooltip],
+    }),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
 };
