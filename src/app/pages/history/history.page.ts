@@ -1,8 +1,12 @@
-import {Component, inject} from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {DatePipe, DecimalPipe} from '@angular/common';
 import {RouterLink} from '@angular/router';
-import {EntryService} from '../../services/entry.service';
+import {EntryService, DaySummary} from '../../services/entry.service';
 import {GoalService} from '../../services/goal.service';
+
+interface DaySummaryWithGoal extends DaySummary {
+  goal: number | null;
+}
 
 @Component({
   selector: 'app-history',
@@ -17,11 +21,11 @@ import {GoalService} from '../../services/goal.service';
         </nav>
       </header>
 
-      @if (entryService.historyDays().length === 0) {
+      @if (enrichedDays().length === 0) {
         <p class="empty">No past entries yet. Start logging on the Today tab!</p>
       } @else {
         <ul class="days">
-          @for (day of entryService.historyDays(); track day.dateKey) {
+          @for (day of enrichedDays(); track day.dateKey) {
             <li>
               <a [routerLink]="['/history', day.dateKey]" class="day-link">
                 <div class="day-info">
@@ -32,6 +36,11 @@ import {GoalService} from '../../services/goal.service';
                 </div>
                 <div class="day-total">
                   <span class="day-cal">{{ day.total | number }} kcal</span>
+                  @if (day.goal != null) {
+                    <span class="day-goal" [class.over]="day.total > day.goal">
+                      {{ day.total * 100 / day.goal | number: '1.0-0' }}% of {{ day.goal | number }}
+                    </span>
+                  }
                 </div>
               </a>
             </li>
@@ -123,9 +132,28 @@ import {GoalService} from '../../services/goal.service';
       font-weight: 500;
       font-variant-numeric: tabular-nums;
     }
+
+    .day-goal {
+      font-size: 0.8rem;
+      color: #888;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .day-goal.over {
+      color: #d64545;
+    }
   `],
 })
 export class HistoryPage {
   protected readonly entryService = inject(EntryService);
   protected readonly goalService = inject(GoalService);
+
+  protected readonly enrichedDays = computed<DaySummaryWithGoal[]>(() => {
+    const days = this.entryService.historyDays();
+    const goals = this.goalService.allGoals();
+    return days.map((day) => ({
+      ...day,
+      goal: this.goalService.goalForDateSync(day.date, goals),
+    }));
+  });
 }
