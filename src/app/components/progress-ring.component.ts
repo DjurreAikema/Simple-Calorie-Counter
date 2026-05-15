@@ -26,32 +26,6 @@ import {Component, computed, input} from '@angular/core';
       />
     </svg>
   `,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .track {
-      stroke: #eee;
-    }
-
-    .fill {
-      stroke: #0a7;
-      transition: stroke-dashoffset 0.3s ease;
-    }
-
-    .fill.over {
-      stroke: #d64545;
-    }
-  `],
 })
 export class ProgressRingComponent {
   readonly consumed = input.required<number>();

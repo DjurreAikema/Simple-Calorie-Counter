@@ -1,0 +1,460 @@
+// ============================================================
+// Today
+// ============================================================
+
+.today {
+  .ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .ring {
+    position: relative;
+    width: 220px;
+    height: 220px;
+  }
+
+  .ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .consumed {
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .unit {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.1rem;
+  }
+
+  .goal {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .remaining {
+    margin: 0.75rem 0 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+
+    &.over {
+      color: var(--danger);
+      font-weight: 500;
+    }
+  }
+
+  .no-goal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 0;
+    color: var(--text-secondary);
+
+    p { margin: 0; }
+  }
+
+  .macros {
+    margin: 0 0 1rem;
+  }
+
+  .fab {
+    position: fixed;
+    bottom: calc(var(--nav-h) + 1rem);
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: var(--shadow-accent);
+    transition: background 0.15s;
+
+    &:hover {
+      background: var(--accent-hover);
+      color: #fff;
+    }
+  }
+}
+
+// ============================================================
+// Week
+// ============================================================
+
+.week {
+  header {
+    margin-bottom: 1rem;
+  }
+
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .range {
+    margin: 0.25rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .hint {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+
+    a { color: var(--accent); }
+  }
+
+  .totals {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-surface);
+    margin-bottom: 1rem;
+  }
+
+  .total-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .t-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .t-value {
+    font-size: 1.05rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+
+    &.over { color: var(--danger); }
+  }
+
+  .chart-wrap {
+    position: relative;
+    height: 220px;
+    margin-bottom: 1rem;
+  }
+}
+
+// ============================================================
+// History
+// ============================================================
+
+.history {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .days li + li {
+    border-top: 1px solid var(--border);
+  }
+
+  .day-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 0;
+    color: inherit;
+
+    &:hover { color: inherit; }
+  }
+
+  .day-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .day-date {
+    font-weight: 500;
+  }
+
+  .day-count {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .day-total {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+  }
+
+  .day-cal {
+    font-size: 1.05rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .day-goal {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+
+    &.over { color: var(--danger); }
+  }
+}
+
+// ============================================================
+// History detail
+// ============================================================
+
+.detail {
+  .ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .ring {
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+
+  .ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .consumed {
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .unit {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.1rem;
+  }
+
+  .goal-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .remaining {
+    margin: 0.75rem 0 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+
+    &.over {
+      color: var(--danger);
+      font-weight: 500;
+    }
+  }
+
+  .total-only {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+  }
+
+  .macros {
+    margin: 0 0 1rem;
+  }
+}
+
+// ============================================================
+// Add / Edit entry
+// ============================================================
+
+.add {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .name-field {
+    position: relative;
+  }
+
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: 4px 0 0;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    max-height: 240px;
+    overflow-y: auto;
+
+    li {
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.1s;
+
+      &:hover,
+      &.highlighted {
+        background: var(--accent-soft);
+      }
+    }
+  }
+
+  .s-name {
+    font-weight: 500;
+  }
+
+  .s-cal {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ============================================================
+// Templates list
+// ============================================================
+
+.templates {
+  .list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .t-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .t-name {
+    font-weight: 500;
+  }
+
+  .t-macros {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .t-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background: var(--bg-elevated);
+    color: var(--text);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover { background: var(--bg-hover); }
+
+    &.danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: transparent;
+    }
+  }
+}
+
+// ============================================================
+// Template edit
+// ============================================================
+
+.edit {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+// ============================================================
+// Settings
+// ============================================================
+
+.settings {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .fine-print {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .notification-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    h2 {
+      font-size: 1.1rem;
+    }
+  }
+}

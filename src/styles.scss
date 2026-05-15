@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'styles/reset';
+@use 'styles/variables';
+@use 'styles/base';
+@use 'styles/components';
+@use 'styles/layout';
+@use 'styles/pages';

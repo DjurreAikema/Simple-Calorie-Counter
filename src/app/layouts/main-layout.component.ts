@@ -13,15 +13,6 @@ import {BottomNavComponent} from '../components/bottom-nav.component';
       <app-bottom-nav/>
     </div>
   `,
-  styles: [`
-    .layout {
-      min-height: 100vh;
-    }
-
-    .main {
-      padding-bottom: 56px;
-    }
-  `],
 })
 export class MainLayoutComponent {
 }

@@ -12,7 +12,7 @@ interface DaySummaryWithGoal extends DaySummary {
   selector: 'app-history',
   imports: [DatePipe, DecimalPipe, RouterLink],
   template: `
-    <section class="history">
+    <section class="page history">
       <header>
         <h1>History</h1>
         <nav class="header-right">
@@ -49,100 +49,6 @@ interface DaySummaryWithGoal extends DaySummary {
       }
     </section>
   `,
-  styles: [`
-    .history {
-      padding: 1rem;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .nav-link {
-      font-size: 0.9rem;
-      color: #0a7;
-      text-decoration: none;
-    }
-
-    .empty {
-      color: #888;
-      text-align: center;
-      padding: 2rem 0;
-    }
-
-    .days {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .days li + li {
-      border-top: 1px solid #eee;
-    }
-
-    .day-link {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.85rem 0;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .day-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    .day-date {
-      font-weight: 500;
-    }
-
-    .day-count {
-      font-size: 0.8rem;
-      color: #888;
-    }
-
-    .day-total {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.15rem;
-    }
-
-    .day-cal {
-      font-size: 1.05rem;
-      font-weight: 500;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .day-goal {
-      font-size: 0.8rem;
-      color: #888;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .day-goal.over {
-      color: #d64545;
-    }
-  `],
 })
 export class HistoryPage {
   protected readonly entryService = inject(EntryService);

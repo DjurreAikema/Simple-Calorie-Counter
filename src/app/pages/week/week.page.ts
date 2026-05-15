@@ -27,7 +27,7 @@ const goalLinePlugin: Plugin<'bar', GoalLineOpts> = {
     ctx.save();
     ctx.beginPath();
     ctx.setLineDash([6, 4]);
-    ctx.strokeStyle = opts.color ?? '#d64545';
+    ctx.strokeStyle = opts.color ?? '#ef4444';
     ctx.lineWidth = 2;
     ctx.moveTo(chartArea.left, y);
     ctx.lineTo(chartArea.right, y);
@@ -40,7 +40,7 @@ const goalLinePlugin: Plugin<'bar', GoalLineOpts> = {
   selector: 'app-week',
   imports: [DatePipe, DecimalPipe, RouterLink, BaseChartDirective],
   template: `
-    <section class="week">
+    <section class="page week">
       <header>
         <div class="title-row">
           <h1>This week</h1>
@@ -113,137 +113,11 @@ const goalLinePlugin: Plugin<'bar', GoalLineOpts> = {
       }
     </section>
   `,
-  styles: [`
-    .week {
-      padding: 1rem;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    header {
-      margin-bottom: 1rem;
-    }
-
-    .title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .nav-link {
-      font-size: 0.9rem;
-      color: #0a7;
-      text-decoration: none;
-    }
-
-    .range {
-      margin: 0.25rem 0 0;
-      color: #888;
-      font-size: 0.9rem;
-    }
-
-    .hint {
-      color: #666;
-      font-size: 0.9rem;
-      margin: 0.5rem 0;
-    }
-
-    .hint a {
-      color: #0a7;
-    }
-
-    .totals {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 0.75rem;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .total-block {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    .t-label {
-      font-size: 0.75rem;
-      color: #666;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .t-value {
-      font-size: 1.05rem;
-      font-weight: 500;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .t-value.over {
-      color: #d64545;
-    }
-
-    .chart-wrap {
-      position: relative;
-      height: 220px;
-      margin-bottom: 1rem;
-    }
-
-    .macros {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      padding: 0.75rem;
-      border: 1px solid #eee;
-      border-radius: 8px;
-    }
-
-    .macro {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.15rem;
-    }
-
-    .m-label {
-      font-size: 0.75rem;
-      color: #666;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .m-value {
-      font-size: 1rem;
-      font-weight: 500;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .empty {
-      color: #888;
-      text-align: center;
-      padding: 1.5rem 0;
-    }
-  `],
 })
 export class WeekPage {
   protected readonly entryService = inject(EntryService);
   protected readonly goalService = inject(GoalService);
 
-  // TODO: matches the staleness caveat in EntryService — these don't roll over
-  // if the app is open across Sun→Mon. Fine for v1.
   protected readonly weekStart = startOfWeek();
   protected readonly weekEnd = endOfWeek();
 
@@ -269,7 +143,7 @@ export class WeekPage {
         {
           data: totals,
           backgroundColor: totals.map((v) =>
-            goal > 0 && v > goal ? '#d64545' : '#0a7',
+            goal > 0 && v > goal ? '#ef4444' : '#8b5cf6',
           ),
           borderRadius: 4,
           maxBarThickness: 36,
@@ -286,15 +160,27 @@ export class WeekPage {
       plugins: {
         legend: {display: false},
         tooltip: {
+          backgroundColor: '#232329',
+          titleColor: '#e4e4eb',
+          bodyColor: '#e4e4eb',
+          borderColor: '#262630',
+          borderWidth: 1,
           callbacks: {
             label: (ctx) => `${Number(ctx.parsed.y).toLocaleString()} kcal`,
           },
         },
-        goalLine: {goal, color: '#d64545'},
+        goalLine: {goal, color: '#ef4444'},
       },
       scales: {
-        x: {grid: {display: false}},
-        y: {beginAtZero: true},
+        x: {
+          grid: {display: false},
+          ticks: {color: '#9494a8'},
+        },
+        y: {
+          beginAtZero: true,
+          grid: {color: '#262630'},
+          ticks: {color: '#9494a8'},
+        },
       },
     };
   });

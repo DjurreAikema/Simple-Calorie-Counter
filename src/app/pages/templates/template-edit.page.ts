@@ -7,9 +7,9 @@ import {TemplateService} from '../../services/template.service';
   selector: 'app-template-edit',
   imports: [ReactiveFormsModule, RouterLink],
   template: `
-    <section class="edit">
-      <header>
-        <a routerLink="/templates" class="back">← Back</a>
+    <section class="page edit">
+      <header class="page-header">
+        <a routerLink="/templates">← Back</a>
         <h1>Edit template</h1>
       </header>
 
@@ -63,113 +63,6 @@ import {TemplateService} from '../../services/template.service';
       }
     </section>
   `,
-  styles: [`
-    .edit {
-      padding: 1rem;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.25rem;
-    }
-
-    .back {
-      color: #0a7;
-      text-decoration: none;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    label {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    label span {
-      font-size: 0.85rem;
-      color: #555;
-    }
-
-    input {
-      padding: 0.6rem;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    input:focus {
-      outline: 2px solid #0a7;
-      border-color: transparent;
-    }
-
-    fieldset {
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      padding: 0.75rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-
-    legend {
-      font-size: 0.85rem;
-      color: #555;
-      padding: 0 0.25rem;
-    }
-
-    .error {
-      color: #c00;
-      margin: 0;
-      font-size: 0.9rem;
-    }
-
-    .actions {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: flex-end;
-      margin-top: 1rem;
-    }
-
-    .btn-primary, .btn-secondary {
-      padding: 0.6rem 1.25rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .btn-primary {
-      background: #0a7;
-      color: white;
-    }
-
-    .btn-primary:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
-
-    .btn-secondary {
-      background: #eee;
-      color: #333;
-    }
-  `],
 })
 export class TemplateEditPage {
   private readonly fb = inject(FormBuilder);
@@ -245,7 +138,6 @@ export class TemplateEditPage {
       });
       await this.router.navigate(['/templates']);
     } catch (err) {
-      // Most likely cause: renamed to collide with another template's unique name.
       this.saveError.set(
         'Could not save. A template with that name may already exist.',
       );

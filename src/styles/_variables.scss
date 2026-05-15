@@ -1,0 +1,38 @@
+:root {
+  // Backgrounds
+  --bg-body: #101014;
+  --bg-surface: #1a1a21;
+  --bg-elevated: #232329;
+  --bg-hover: #2c2c35;
+
+  // Text
+  --text: #e4e4eb;
+  --text-secondary: #9494a8;
+  --text-muted: #606074;
+
+  // Accent — purple
+  --accent: #8b5cf6;
+  --accent-hover: #a078f8;
+  --accent-soft: rgba(139, 92, 246, 0.12);
+
+  // Danger
+  --danger: #ef4444;
+  --danger-soft: rgba(239, 68, 68, 0.12);
+
+  // Borders
+  --border: #262630;
+
+  // Radii
+  --radius: 8px;
+  --radius-sm: 6px;
+  --radius-full: 9999px;
+
+  // Layout
+  --max-w: 480px;
+  --nav-h: 56px;
+
+  // Shadows
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-accent: 0 2px 12px rgba(139, 92, 246, 0.3);
+}
